@@ -18,6 +18,26 @@
             }
         });
 
+        var ListItemModel = Backbone.Model.extend({
+            defaults: function () {
+                return {
+                    listTitle: "New title...",
+                    listValue: ""
+                }
+            },
+            initialize: function () {
+                console.log('--ListItemModel.initialize()--');
+            },
+        });
+
+        var ListCollection = Backbone.Collection.extend({
+            model: ListItemModel,
+            localStorage: new Backbone.localStorage("listItem-Backbone"),
+            
+        });
+
+        var listCollection = new ListCollection;
+
         DefaultView = Backbone.View.extend({
             initialize: function () {
                 this.renderView();
