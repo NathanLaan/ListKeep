@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en">
+    <head runat="server">
+    <title>ListKeep</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="An ode to Metro.">
+    <meta name="author" content="Thomas Park">
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-navlist-collapse.css" rel="stylesheet">
+    <link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/css/bootswatch.css" rel="stylesheet">
+    
+  </head>
+
+  <body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
+
+
+    <!-- Navbar  -->
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">ListKeep</a>
+            <div class="nav-collapse collapse" id="main-menu">
+                <ul class="nav" id="main-menu-left">
+                <li><a href="/">New List</a></li>
+                <li><a href="/#/delete/id" id="deleteListLink">Delete List</a></li>
+                </ul>
+                <ul class="nav pull-right" id="main-menu-right">
+                <li><a href="/#/about">About</a></li>
+                <li><a href="/#/help">Help</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="span2">
+            <ul class="nav nav-list">
+                <li class="active"><a href="/#/list/01">List Item 01</a></li>
+                <li><a href="/#/list/02">List Item 02</a></li>
+                <li><a href="/#/list/03">List Item 03</a></li>
+                <li><a href="/#/list/04">List Item 04</a></li>
+                <li><a href="/#/list/05">List Item 05</a></li>
+            </ul>
+        </div>
+        <div class="span8">
+            <div class="row">
+                <div id="pageContent"></div>
+            </div>
+        </div>
+    </div>
+  
+    <hr>
+    <footer id="footer">
+    <p class="pull-right">&pi;</p>
+    <div class="links">
+        <a href="http://listkeep.net">ListKeep</a>
+        <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>
+        <a href="http://bootswatch.com/cosmo/">Cosmo</a>
+        <a href="https://github.com/NathanLaan/ListKeep">GitHub</a>
+    </div>
+    </footer>
+
+</div><!-- /container -->
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.smooth-scroll.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/bootswatch.js"></script>
+<script type="text/javascript" src="/js/underscore-min.js"></script>
+<script type="text/javascript" src="/js/underloader.js"></script>
+<script type="text/javascript" src="/js/backbone-min.js"></script>
+<script type="text/javascript" src="/js/backbone.localStorage.js"></script>
+<script type="text/javascript" src="/js/backbone.destroy-view.js"></script>
+<script type="text/javascript" src="/js/app.js"></script>
+
+</body>
+</html>
