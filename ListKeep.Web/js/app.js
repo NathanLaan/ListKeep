@@ -60,12 +60,12 @@
         });
 
         ListView = Backbone.View.extend({
-            initialize: function () {
-                this.renderView();
-            },
-            renderView: function () {
+            renderView: function (id) {
                 var templateContent = underloader.get(listTemplate_name);
-                var variables = { listLabel: "--LIST--TITLE--" };
+                var variables = { listLabel: id };
+                //
+                // TODO: load data for ID from model
+                //
                 var template = _.template($("#listTemplate", templateContent).prevObject.html(), variables);
                 this.$el.html(template);
                 return this;
@@ -87,6 +87,14 @@
                 $(selector).html(view.render().el);
                 this.currentView = view;
                 return view;
+            },
+            listViewRoute: function (id) {
+                console.log('--route:listViewRoute--' + id);
+                $('#pageContent').html(new ListView().renderView(id).el);
+            },
+            defaultRoute: function () {
+                console.log('ACTIONS: ' + actions);
+                $('#pageContent').html(new DefaultView().renderView().el);
             }
         });
 
@@ -94,30 +102,9 @@
         // Initiate the router
         var lkar = new ListKeepAppRouter;
 
-        lkar.on('route:defaultRoute', function (actions) {
-            console.log('ACTIONS: ' + actions);
-            $('#pageContent').html(new DefaultView().renderView().el);
-        });
-
-        lkar.on('route:listViewRoute', function (id) {
-            console.log('--route:listViewRoute--');
-            $('#pageContent').html(new ListView().renderView().el);
-        });
-
         // required for bookmarkable URLs
         Backbone.history.start();
     });
-
-
-
-
-
-
-
-
-
-
-
 
 
 });
