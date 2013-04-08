@@ -32,8 +32,7 @@
 
         var ListCollection = Backbone.Collection.extend({
             model: ListItemModel,
-            localStorage: new Backbone.localStorage("listItem-Backbone"),
-            
+            localStorage: new Backbone.LocalStorage("listItem-Backbone")
         });
 
         var listCollection = new ListCollection;
