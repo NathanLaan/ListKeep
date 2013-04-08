@@ -92,7 +92,7 @@
                 console.log('--route:listViewRoute--' + id);
                 $('#pageContent').html(new ListView().renderView(id).el);
             },
-            defaultRoute: function () {
+            defaultRoute: function (actions) {
                 console.log('ACTIONS: ' + actions);
                 $('#pageContent').html(new DefaultView().renderView().el);
             }
