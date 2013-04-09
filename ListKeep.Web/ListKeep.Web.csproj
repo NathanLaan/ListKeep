@@ -63,6 +63,7 @@
     <Content Include="css\font-awesome.min.css" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
+    <Content Include="jstemplates\ListSideTemplate.html" />
     <Content Include="jstemplates\DefaultTemplate.html" />
     <Content Include="jstemplates\ListTemplate.html" />
     <Content Include="js\app.js" />

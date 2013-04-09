@@ -2,12 +2,13 @@
 
     var defaultTemplate_name = 'DefaultTemplate.html';
     var listTemplate_name = 'ListTemplate.html';
+    var listSideTemplate_name = 'ListSideTemplate.html';
     var templatesDir = '/jstemplates/';
 
     //
     // load templates
     //
-    underloader.loadTemplates(templatesDir, [defaultTemplate_name, listTemplate_name], function () {
+    underloader.loadTemplates(templatesDir, [defaultTemplate_name, listTemplate_name, listSideTemplate_name], function () {
 
         ListKeepModel = Backbone.Model.extend({
             initialize: function () {
@@ -72,6 +73,19 @@
             }
         });
 
+        ListSideView = Backbone.View.extend({
+            renderView: function (id) {
+                var templateContent = underloader.get(listSideTemplate_name);
+                var variables = { listLabel: id };
+                //
+                // TODO: load data for ID from model
+                //
+                var template = _.template($("#listSideTemplate", templateContent).prevObject.html(), variables);
+                this.$el.html(template);
+                return this;
+            }
+        });
+
         var lkm = new ListKeepModel();
 
 
@@ -91,6 +105,7 @@
             listViewRoute: function (id) {
                 console.log('--route:listViewRoute--' + id);
                 $('#pageContent').html(new ListView().renderView(id).el);
+                $('#pageContent').html(new ListSideView().renderView(id).el);
             },
             defaultRoute: function (actions) {
                 console.log('ACTIONS: ' + actions);
