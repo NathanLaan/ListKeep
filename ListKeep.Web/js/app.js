@@ -50,12 +50,16 @@
                 return this;
             },
             events: {
-                "click input[type=button]": "addList_EventHandler"
+                "click button[id=addListButton]": "addList_EventHandler"
             },
             addList_EventHandler: function (event) {
                 // event.currentTarget
                 //rfm.addFeed($("#addFeed_URL").val());
-                alert('addList_EventHandler');
+                //alert('addList_EventHandler');
+                console.log('--addList_EventHandler()--');
+
+
+                lkar.navigate("list/123", { trigger: true });
             }
 
         });
@@ -105,7 +109,7 @@
             listViewRoute: function (id) {
                 console.log('--route:listViewRoute--' + id);
                 $('#pageContent').html(new ListView().renderView(id).el);
-                $('#pageContent').html(new ListSideView().renderView(id).el);
+                $('#sidebarContent').html(new ListSideView().renderView(id).el);
             },
             defaultRoute: function (actions) {
                 console.log('ACTIONS: ' + actions);
