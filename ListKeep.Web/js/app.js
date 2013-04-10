@@ -24,20 +24,15 @@ $(function () {
         });
 
         var ListItemModel = Backbone.Model.extend({
-            defaults: function () {
-                return {
-                    listTitle: "New title...",
-                    listValue: ""
-                }
-            },
-            initialize: function () {
-                clog('--ListItemModel.initialize()--');
-            },
+            defaults: {
+                listItemID: null,
+                name: "",
+                text: ""
+            }
         });
 
         var ListCollection = Backbone.Collection.extend({
-            model: ListItemModel,
-            localStorage: new Backbone.LocalStorage("listItem-Backbone")
+            model: ListItemModel
         });
 
         var listCollection = new ListCollection;
@@ -74,7 +69,6 @@ $(function () {
                         lkar.navigate("list/"+r.d, { trigger: true });
                     }
                 });
-
             }
 
         });
@@ -110,6 +104,47 @@ $(function () {
                 var template = _.template($("#listSideTemplate", templateContent).prevObject.html(), variables);
                 this.$el.html(template);
                 return this;
+            },
+            events: {
+                "click button[id=createListItem]": "addListItem_EventHandler"
+            },
+            addListItem_EventHandler: function (event) {
+                clog('--addListItem_EventHandler()--');
+
+                //
+                // TODO: Prompt for list item name
+                //
+
+                //
+                // TODO: call model function
+                //
+
+                var p = JSON.stringify({ listID: 'temp1234', name: 'tempNAME' });
+                //var p = "{'listID':'temp1234', 'name':'tempNAME'}";
+                $.ajax({
+                    type: "POST",
+                    url: "/service/List.asmx/CreateListItem",
+                    data: p,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        clog(r);
+                        alert(r.d);
+                        //lkar.navigate("list/" + r.d, { trigger: true });
+
+                        //
+                        // TODO: create ListItemModel
+                        //
+                        var m = ListItemModel({listItemID: r.d, name:"", text:""});
+                        m.listItem = r.d;
+                        m.name = "";
+                        m.text = "";
+
+                        //
+                        // TODO: create new ListItemView, pass in Model
+                        //
+                    }
+                });
             }
         });
 
