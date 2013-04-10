@@ -1,4 +1,8 @@
-﻿$(function () {
+﻿function clog(msg, err) {
+    window.console && console.log && console.log(err?'--ERROR--'+msg+' : '+err:'--DEBUG--'+msg);
+}
+
+$(function () {
 
     var defaultTemplate_name = 'DefaultTemplate.html';
     var listTemplate_name = 'ListTemplate.html';
@@ -12,10 +16,10 @@
 
         ListKeepModel = Backbone.Model.extend({
             initialize: function () {
-              console.log('--ListKeepModel.initialize()--');
+                clog('ListKeepModel.initialize()');
             },
             addList: function (f) {
-              console.log("ListKeepModel.addList(): " + f);
+                clog("ListKeepModel.addList(): " + f);
             }
         });
 
@@ -27,7 +31,7 @@
                 }
             },
             initialize: function () {
-                console.log('--ListItemModel.initialize()--');
+                clog('--ListItemModel.initialize()--');
             },
         });
 
@@ -56,13 +60,32 @@
                 // event.currentTarget
                 //rfm.addFeed($("#addFeed_URL").val());
                 //alert('addList_EventHandler');
-                console.log('--addList_EventHandler()--');
+                clog('--addList_EventHandler()--');
 
+                var params = "{'name':'test', 'email':'me@me.com'}";
+                $.ajax({
+                    type: "POST",
+                    url: "/service/List.asmx/CreateList",
+                    data: params,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        clog(r);
+                        lkar.navigate("list/"+r.d, { trigger: true });
+                    }
+                });
 
-                lkar.navigate("list/123", { trigger: true });
             }
 
         });
+        function displayArticleList(a) {
+            if (a !== undefined && a.d !== undefined) {
+                clearTable();
+                $.each(a.d, function () {
+                });
+            }
+            $('div#output').append('------- displayArticleList()<br/>');
+        }
 
         ListView = Backbone.View.extend({
             renderView: function (id) {
@@ -107,12 +130,12 @@
                 return view;
             },
             listViewRoute: function (id) {
-                console.log('--route:listViewRoute--' + id);
+                clog('--route:listViewRoute--' + id);
                 $('#pageContent').html(new ListView().renderView(id).el);
                 $('#sidebarContent').html(new ListSideView().renderView(id).el);
             },
             defaultRoute: function (actions) {
-                console.log('ACTIONS: ' + actions);
+                clog('ACTIONS: ' + actions);
                 $('#pageContent').html(new DefaultView().renderView().el);
             }
         });

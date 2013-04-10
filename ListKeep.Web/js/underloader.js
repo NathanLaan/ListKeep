@@ -18,7 +18,7 @@ underloader = {
 
         var loadTemplate = function (index) {
             var name = fileNames[index];
-            console.log('--DEBUG--underloader.loadTemplates() -- Loading template: ' + name);
+            clog('underloader.loadTemplates() -- Loading template: ' + name);
             $.get(rootPath + name, function (data) {
                 ulref.templates[name] = data;
                 index++;
