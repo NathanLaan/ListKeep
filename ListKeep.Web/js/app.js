@@ -66,7 +66,7 @@ $(function () {
                     dataType: "json",
                     success: function (r) {
                         clog(r);
-                        lkar.navigate("list/"+r.d, { trigger: true });
+                        lkar.navigate("#/"+r.d, { trigger: true });
                     }
                 });
             }
@@ -155,6 +155,7 @@ $(function () {
             routes: {
                 "list/:id": "listViewRoute",
                 "add": "addRoute",
+                ":id": "listViewRoute",
                 "*actions": "defaultRoute" // matches http://listkeep.net/#anything-here
             },
             showView: function (selector, view) {
