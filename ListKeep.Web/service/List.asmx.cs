@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Script.Services;
 using System.Data;
-using System.Data.SQLite;
+using ListKeep.Lib;
 
 namespace ListKeep.Web
 {
@@ -33,28 +33,15 @@ namespace ListKeep.Web
         [WebMethod]
         public string CreateList(string name, string email)
         {
-            //ListEntity listEntity = new ListEntity();
-            try
-            {
-                string id = CreateRandom(8);
-
-                SQLiteConnection connection = new SQLiteConnection();
-
-                //
-                // TODO: Check to make sure string does not already exist in the (non-existant) data store
-                // TODO: Save
-                //
-                return id;
-            }
-            catch (Exception e)
-            {
-            }
-            return "0";
+            ListEntity listEntity = new ListEntity(name);
+            listEntity.Save();
+            return listEntity.ListID;
         }
 
         [WebMethod]
         public string CreateListItem(string listID, string name)
         {
+            ListItemEntity entity = new ListItemEntity();
             string id = CreateRandom(16);
             //
             // TODO: Check to make sure string does not already exist in the (non-existant) data store
