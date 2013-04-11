@@ -5,8 +5,6 @@ using System.Web.Services;
 using System.Web.Script.Services;
 using System.Data;
 using System.Data.SQLite;
-//using ListKeep.Lib;
-
 
 namespace ListKeep.Web
 {

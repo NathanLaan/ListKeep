@@ -91,7 +91,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Content Include="ListEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="service\List.asmx.cs">
       <DependentUpon>List.asmx</DependentUpon>
