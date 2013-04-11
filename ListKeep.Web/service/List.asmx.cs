@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Services;
 using System.Web.Script.Services;
+using System.Data;
+using System.Data.SQLite;
+//using ListKeep.Lib;
 
-namespace ListKeep.Web.service
+
+namespace ListKeep.Web
 {
 
     [WebService(Namespace = "http://listkeep.net")]
@@ -13,6 +17,9 @@ namespace ListKeep.Web.service
     [System.Web.Script.Services.ScriptService]
     public class List : System.Web.Services.WebService
     {
+
+        
+
         private string CreateRandom(int size)
         {
             var validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -28,12 +35,23 @@ namespace ListKeep.Web.service
         [WebMethod]
         public string CreateList(string name, string email)
         {
-            string id = CreateRandom(8);
-            //
-            // TODO: Check to make sure string does not already exist in the (non-existant) data store
-            // TODO: Save
-            //
-            return id;
+            //ListEntity listEntity = new ListEntity();
+            try
+            {
+                string id = CreateRandom(8);
+
+                SQLiteConnection connection = new SQLiteConnection();
+
+                //
+                // TODO: Check to make sure string does not already exist in the (non-existant) data store
+                // TODO: Save
+                //
+                return id;
+            }
+            catch (Exception e)
+            {
+            }
+            return "0";
         }
 
         [WebMethod]
