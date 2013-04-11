@@ -17,7 +17,7 @@ namespace ListKeep.Lib
             this.ListID = base.CreateRandom(8);
         }
 
-        public int Save()
+        public int Insert()
         {
             try
             {
@@ -30,10 +30,15 @@ namespace ListKeep.Lib
                 SQLiteCommand command = new SQLiteCommand("INSERT INTO List (ListID, ListName) VALUES (@listID, @listName); SELECT last_insert_rowid();", this.Connection);
                 command.Parameters.AddWithValue("@ListID", this.ListID);
                 command.Parameters.AddWithValue("@ListName", this.ListName);
-                Object o = command.ExecuteScalar();
-
-
-                return 0;
+                Object result = command.ExecuteScalar();
+                try
+                {
+                    this.ID = int.Parse(result.ToString());
+                }
+                catch (Exception castException)
+                {
+                    this.ID = 0;
+                }
             }
             catch (SQLiteException sqLiteException)
             {
@@ -45,7 +50,7 @@ namespace ListKeep.Lib
             {
                 this.Connection.Close();
             }
-            return 0;
+            return this.ID;
         }
 
     }

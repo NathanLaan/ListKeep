@@ -6,6 +6,8 @@ namespace ListKeep.Lib
     public class EntityBase
     {
 
+        public static string DatabaseFilePath { get; set; }
+
         protected string CreateRandom(int size)
         {
             var validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -23,7 +25,7 @@ namespace ListKeep.Lib
 
         public EntityBase()
         {
-            this.Connection = new SQLiteConnection("Data Source:/App_Data/db.s3db");
+            this.Connection = new SQLiteConnection("Data Source=" + EntityBase.DatabaseFilePath);
         }
 
     }

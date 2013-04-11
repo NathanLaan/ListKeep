@@ -12,6 +12,11 @@ namespace ListKeep.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+            //
+            // TODO: move to Application startup
+            //
+            string dbPath = Server.MapPath(@"~\App_Data\db.s3db");
+            ListKeep.Lib.EntityBase.DatabaseFilePath = dbPath;
             /*
             Response.Write("URL: " + Request.Url);
             Response.Write("<br/>URL: " + Request.Url.AbsolutePath);

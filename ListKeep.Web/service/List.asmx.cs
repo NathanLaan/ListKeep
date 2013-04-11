@@ -34,7 +34,7 @@ namespace ListKeep.Web
         public string CreateList(string name, string email)
         {
             ListEntity listEntity = new ListEntity(name);
-            listEntity.Save();
+            listEntity.Insert();
             return listEntity.ListID;
         }
 
