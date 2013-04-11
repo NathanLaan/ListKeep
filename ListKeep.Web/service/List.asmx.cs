@@ -18,36 +18,33 @@ namespace ListKeep.Web
 
         
 
-        private string CreateRandom(int size)
+
+
+        [WebMethod]
+        public string CreateList(string listName, string listOwnerEmail)
         {
-            var validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            char[] charList = new char[size];
-            Random random = new Random();
-            for (int i = 0; i < charList.Length; i++)
+            try
             {
-                charList[i] = validChars[random.Next(validChars.Length)];
+                ListEntity listEntity = new ListEntity(listName);
+                int listID = listEntity.Insert();
+                if (listID != 0)
+                {
+                    EmailEntity emailEntity = new EmailEntity(listID, listOwnerEmail);
+                    emailEntity.Insert();
+                }
+                return listEntity.ListID;
             }
-            return new String(charList);
+            catch
+            {
+                return string.Empty;
+            }
         }
 
         [WebMethod]
-        public string CreateList(string name, string email)
+        public string CreateListItem(string listID, string listItemName)
         {
-            ListEntity listEntity = new ListEntity(name);
-            listEntity.Insert();
-            return listEntity.ListID;
-        }
-
-        [WebMethod]
-        public string CreateListItem(string listID, string name)
-        {
-            ListItemEntity entity = new ListItemEntity();
-            string id = CreateRandom(16);
-            //
-            // TODO: Check to make sure string does not already exist in the (non-existant) data store
-            // TODO: Save
-            //
-            return id;
+            ListItemEntity entity = new ListItemEntity(listID, listItemName);
+            return string.Empty;
         }
 
         [WebMethod]
