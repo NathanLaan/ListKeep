@@ -16,7 +16,22 @@ namespace ListKeep.Web
     public class List : System.Web.Services.WebService
     {
 
-        
+
+        [WebMethod]
+        public string GetListName(string listID)
+        {
+            try
+            {
+                ListEntity listEntity = new ListEntity("");
+                listEntity.ListID = listID;
+                listEntity.Select();
+                return listEntity.ListName;
+            }
+            catch
+            {
+            }
+            return string.Empty;
+        }
 
 
 

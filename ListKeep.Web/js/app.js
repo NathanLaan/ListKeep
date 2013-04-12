@@ -1,5 +1,5 @@
 ﻿function clog(msg, err) {
-    window.console && console.log && console.log(err?'--ERROR--'+msg+' : '+err:'--DEBUG--'+msg);
+    window.console && console.log && console.log(err?'--ERROR--'+msg+' : '+err:msg);
 }
 
 $(function () {
@@ -52,25 +52,13 @@ $(function () {
                 "click button[id=addListButton]": "addList_EventHandler"
             },
             addList_EventHandler: function (event) {
-                // event.currentTarget
-                //rfm.addFeed($("#addFeed_URL").val());
-                //alert('addList_EventHandler');
-                clog('--addList_EventHandler()--');
-
-                var name = $('#listNameTextbox').val();
-                var email = $('#emailTextbox').val();
-
-                var p = JSON.stringify({ listName: name, listOwnerEmail: email });
-
-                clog(p);
                 $.ajax({
                     type: "POST",
                     url: "/service/List.asmx/CreateList",
-                    data: p,
+                    data: JSON.stringify({ listName: $('#listNameTextbox').val(), listOwnerEmail: $('#emailTextbox').val() }),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
-                        clog(r);
                         lkar.navigate("#/"+r.d, { trigger: true });
                     }
                 });
@@ -87,12 +75,9 @@ $(function () {
         }
 
         ListView = Backbone.View.extend({
-            renderView: function (id) {
+            renderView: function (listName) {
                 var templateContent = underloader.get(listTemplate_name);
-                var variables = { listLabel: id };
-                //
-                // TODO: load data for ID from model
-                //
+                var variables = { listLabel: listName };
                 var template = _.template($("#listTemplate", templateContent).prevObject.html(), variables);
                 this.$el.html(template);
                 return this;
@@ -171,9 +156,19 @@ $(function () {
                 return view;
             },
             listViewRoute: function (id) {
-                clog('--route:listViewRoute--' + id);
-                $('#pageContent').html(new ListView().renderView(id).el);
-                $('#sidebarContent').html(new ListSideView().renderView(id).el);
+                $.ajax({
+                    type: "POST",
+                    url: "/service/List.asmx/GetListName",
+                    data: JSON.stringify({ listID: id }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        clog(r);
+
+                        $('#pageContent').html(new ListView().renderView(r.d).el);
+                        $('#sidebarContent').html(new ListSideView().renderView(id).el);
+                    }
+                });
             },
             defaultRoute: function (actions) {
                 clog('ACTIONS: ' + actions);
