@@ -57,10 +57,12 @@ $(function () {
                 //alert('addList_EventHandler');
                 clog('--addList_EventHandler()--');
 
-                var nameVal = $('#listNameTextbox').val();
+                var name = $('#listNameTextbox').val();
                 var email = $('#emailTextbox').val();
 
-                var p = JSON.stringify({ name: nameVal, email: email });
+                var p = JSON.stringify({ listName: name, listOwnerEmail: email });
+
+                clog(p);
                 $.ajax({
                     type: "POST",
                     url: "/service/List.asmx/CreateList",
