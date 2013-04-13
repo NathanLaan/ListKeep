@@ -8,6 +8,7 @@ $(function () {
     var listTemplate_name = 'ListTemplate.html';
     var listSideTemplate_name = 'ListSideTemplate.html';
     var templatesDir = '/jstemplates/';
+    var cType = "application/json; charset=utf-8";
 
     //
     // load templates
@@ -16,14 +17,12 @@ $(function () {
 
         ListKeepModel = Backbone.Model.extend({
             initialize: function () {
-                clog('ListKeepModel.initialize()');
             },
             addList: function (f) {
-                clog("ListKeepModel.addList(): " + f);
             }
         });
 
-        var ListItemModel = Backbone.Model.extend({
+        var ListEntityModel = Backbone.Model.extend({
             defaults: {
                 listItemID: null,
                 name: "",
@@ -31,13 +30,21 @@ $(function () {
             }
         });
 
-        var ListCollection = Backbone.Collection.extend({
-            model: ListItemModel
+        var ListItemEntityModel = Backbone.Model.extend({
+            defaults: {
+                listItemID: null,
+                name: "",
+                text: ""
+            }
         });
 
-        var listCollection = new ListCollection;
+        var ListItemEntityCollection = Backbone.Collection.extend({
+            model: ListItemEntityModel
+        });
 
-        DefaultView = Backbone.View.extend({
+        var listCollection = new ListItemEntityCollection;
+
+        var DefaultView = Backbone.View.extend({
             initialize: function () {
                 this.renderView();
             },
@@ -56,25 +63,21 @@ $(function () {
                     type: "POST",
                     url: "/service/List.asmx/CreateList",
                     data: JSON.stringify({ listName: $('#listNameTextbox').val(), listOwnerEmail: $('#emailTextbox').val() }),
-                    contentType: "application/json; charset=utf-8",
+                    contentType: cType,
                     dataType: "json",
                     success: function (r) {
-                        lkar.navigate("#/"+r.d, { trigger: true });
+                        app.navigate("#/"+r.d, { trigger: true });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        clog(jqXHR);
+                        clog(textStatus, errorThrown);
                     }
                 });
             }
 
         });
-        function displayArticleList(a) {
-            if (a !== undefined && a.d !== undefined) {
-                clearTable();
-                $.each(a.d, function () {
-                });
-            }
-            $('div#output').append('------- displayArticleList()<br/>');
-        }
 
-        ListView = Backbone.View.extend({
+        var ListView = Backbone.View.extend({
             renderView: function (listName) {
                 var templateContent = underloader.get(listTemplate_name);
                 var variables = { listLabel: listName };
@@ -84,13 +87,13 @@ $(function () {
             }
         });
 
-        ListSideView = Backbone.View.extend({
+        var ListSideView = Backbone.View.extend({
             renderView: function (id) {
-                var templateContent = underloader.get(listSideTemplate_name);
-                var variables = { listLabel: id };
                 //
                 // TODO: load data for ID from model
                 //
+                var templateContent = underloader.get(listSideTemplate_name);
+                var variables = { listLabel: id };
                 var template = _.template($("#listSideTemplate", templateContent).prevObject.html(), variables);
                 this.$el.html(template);
                 return this;
@@ -99,7 +102,6 @@ $(function () {
                 "click button[id=createListItem]": "addListItem_EventHandler"
             },
             addListItem_EventHandler: function (event) {
-                clog('--addListItem_EventHandler()--');
 
                 //
                 // TODO: Prompt for list item name
@@ -109,18 +111,15 @@ $(function () {
                 // TODO: call model function
                 //
 
-                var p = JSON.stringify({ listID: 'temp1234', name: 'tempNAME' });
-                //var p = "{'listID':'temp1234', 'name':'tempNAME'}";
                 $.ajax({
                     type: "POST",
                     url: "/service/List.asmx/CreateListItem",
-                    data: p,
-                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({ listID: 'temp1234', name: 'tempNAME' }),
+                    contentType: cType,
                     dataType: "json",
                     success: function (r) {
                         clog(r);
-                        alert(r.d);
-                        //lkar.navigate("list/" + r.d, { trigger: true });
+                        //app.navigate("list/" + r.d, { trigger: true });
 
                         //
                         // TODO: create ListItemModel
@@ -149,8 +148,9 @@ $(function () {
                 "*actions": "defaultRoute" // matches http://listkeep.net/#anything-here
             },
             showView: function (selector, view) {
-                if (this.currentView)
+                if (this.currentView) {
                     this.currentView.close();
+                }
                 $(selector).html(view.render().el);
                 this.currentView = view;
                 return view;
@@ -160,25 +160,26 @@ $(function () {
                     type: "POST",
                     url: "/service/List.asmx/GetListName",
                     data: JSON.stringify({ listID: id }),
-                    contentType: "application/json; charset=utf-8",
+                    contentType: cType,
                     dataType: "json",
                     success: function (r) {
-                        clog(r);
-
                         $('#pageContent').html(new ListView().renderView(r.d).el);
                         $('#sidebarContent').html(new ListSideView().renderView(id).el);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        clog(jqXHR);
+                        clog(textStatus, errorThrown);
                     }
                 });
             },
             defaultRoute: function (actions) {
-                clog('ACTIONS: ' + actions);
                 $('#pageContent').html(new DefaultView().renderView().el);
             }
         });
 
 
         // Initiate the router
-        var lkar = new ListKeepAppRouter;
+        var app = new ListKeepAppRouter;
 
         // required for bookmarkable URLs
         Backbone.history.start();
