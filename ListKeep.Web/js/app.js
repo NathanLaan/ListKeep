@@ -7,13 +7,14 @@ $(function () {
     var defaultTemplate_name = 'DefaultTemplate.html';
     var listTemplate_name = 'ListTemplate.html';
     var listSideTemplate_name = 'ListSideTemplate.html';
+    var listItemLinkTemplate_name = 'ListItemLinkTemplate.html';
     var templatesDir = '/jstemplates/';
     var cType = "application/json; charset=utf-8";
 
     //
     // load templates
     //
-    underloader.loadTemplates(templatesDir, [defaultTemplate_name, listTemplate_name, listSideTemplate_name], function () {
+    underloader.loadTemplates(templatesDir, [defaultTemplate_name, listTemplate_name, listSideTemplate_name, listItemLinkTemplate_name], function () {
 
         ListKeepModel = Backbone.Model.extend({
             initialize: function () {
@@ -32,9 +33,9 @@ $(function () {
 
         var ListItemEntityModel = Backbone.Model.extend({
             defaults: {
-                listItemID: null,
-                name: "",
-                text: ""
+                listItemClass: "",
+                listItemLink: "",
+                listItemTitle: ""
             }
         });
 
