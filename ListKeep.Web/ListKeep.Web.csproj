@@ -62,6 +62,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
+    <Content Include="jstemplates\ListItemLinkTemplate.html" />
     <Content Include="jstemplates\DefaultTemplate.html" />
     <Content Include="jstemplates\ListSideTemplate.html" />
     <Content Include="jstemplates\ListTemplate.html" />
@@ -78,7 +79,9 @@
     <Content Include="js\underloader.js" />
     <Content Include="js\underscore-min.js" />
     <Content Include="service\List.asmx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
